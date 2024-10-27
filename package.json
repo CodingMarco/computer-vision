@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "math.js": "^1.1.46",
     "nuxt": "^3.13.2",
     "vue": "latest",
     "vue-router": "latest"
