@@ -4,38 +4,32 @@
       <NuxtPage />
       <h1 class="text-xl font-bold underline">Structure Tensor</h1>
       <div class="flex flex-row m-5">
-        <div class="flex flex-col gap-2 m-5 items-start">
-          <div class="flex flex-row items-center">
-            <label for="kernelSizeRange" class="block mr-4 text-sm font-medium"
-              >Kernel Size:</label
-            >
-            <input
-              id="kernelSizeRange"
-              type="range"
-              min="1"
-              max="51"
-              step="2"
-              v-model="kernelSize"
-              class="w-30 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-            />
-            <span class="ml-2 text-sm">{{ kernelSize }}</span>
-          </div>
+        <div class="grid grid-cols-4 items-center gap-2 m-5 h-min">
+          <label for="kernelSizeRange" class="text-sm font-medium"
+            >Kernel Size:</label
+          >
+          <input
+            id="kernelSizeRange"
+            type="range"
+            min="1"
+            max="51"
+            step="2"
+            v-model="kernelSize"
+            class="w-full col-span-2 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+          />
+          <span class="ml-2 text-sm">{{ kernelSize }}</span>
 
-          <div class="flex flex-row items-center">
-            <label for="sigmaRange" class="block mr-4 text-sm font-medium"
-              >Sigma:</label
-            >
-            <input
-              id="sigmaRange"
-              type="range"
-              min="0.1"
-              max="30"
-              step="0.1"
-              v-model="kernelSigma"
-              class="w-30 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-            />
-            <span class="ml-2 text-sm">{{ kernelSigma }}</span>
-          </div>
+          <label for="sigmaRange" class="text-sm font-medium">Sigma:</label>
+          <input
+            id="sigmaRange"
+            type="range"
+            min="0.1"
+            max="30"
+            step="0.1"
+            v-model="kernelSigma"
+            class="w-full h-2 col-span-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+          />
+          <span class="ml-2 text-sm">{{ kernelSigma }}</span>
         </div>
         <canvas ref="canvas" width="644" height="644"></canvas>
       </div>
