@@ -15,5 +15,7 @@ export default defineNuxtConfig({
         class: "bg-slate-900",
       },
     },
+    baseURL: "/computer-vision",
+    buildAssetsDir: "_nuxt",
   },
 });
