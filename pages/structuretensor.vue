@@ -2,34 +2,41 @@
   <div>
     <NuxtLayout>
       <NuxtPage />
-      <h1 class="text-xl font-bold underline">Structure Tensor</h1>
-      <div class="flex flex-row m-5">
-        <div class="grid grid-cols-4 items-center gap-2 m-5 h-min">
-          <label for="kernelSizeRange" class="text-sm font-medium"
-            >Kernel Size:</label
-          >
-          <input
-            id="kernelSizeRange"
-            type="range"
-            min="1"
-            max="51"
-            step="2"
-            v-model="kernelSize"
-            class="w-full col-span-2 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-          />
-          <span class="ml-2 text-sm">{{ kernelSize }}</span>
+      <h1 class="text-xl font-bold mb-5">Structure Tensor</h1>
+      <div class="flex flex-row">
+        <div class="flex flex-col">
+          <div class="grid grid-cols-4 items-center gap-2 h-min">
+            <label for="kernelSizeRange" class="font-medium"
+              >Kernel Size:</label
+            >
+            <input
+              id="kernelSizeRange"
+              type="range"
+              min="1"
+              max="51"
+              step="2"
+              v-model="kernelSize"
+              class="w-full col-span-2 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            />
+            <span class="ml-2">{{ kernelSize }}</span>
 
-          <label for="sigmaRange" class="text-sm font-medium">Sigma:</label>
-          <input
-            id="sigmaRange"
-            type="range"
-            min="0.1"
-            max="30"
-            step="0.1"
-            v-model="kernelSigma"
-            class="w-full h-2 col-span-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-          />
-          <span class="ml-2 text-sm">{{ kernelSigma }}</span>
+            <label for="sigmaRange" class="font-medium">Sigma:</label>
+            <input
+              id="sigmaRange"
+              type="range"
+              min="0.1"
+              max="30"
+              step="0.1"
+              v-model="kernelSigma"
+              class="w-full h-2 col-span-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            />
+            <span class="ml-2">{{ kernelSigma }}</span>
+            <div class="h-5 col-span-4"></div>
+            <span class="font-bold">λ<sub>1</sub> / 1000 =</span>
+            <span class="col-span-3">{{ lambda1 }}</span>
+            <span class="font-bold">λ<sub>2</sub> / 1000 =</span>
+            <span class="col-span-3">{{ lambda2 }}</span>
+          </div>
         </div>
         <canvas ref="canvas" width="644" height="644"></canvas>
       </div>
@@ -46,11 +53,13 @@ const canvas = ref<HTMLCanvasElement>(null as any);
 const ctx = computed(
   () => canvas.value?.getContext("2d") as CanvasRenderingContext2D
 );
-const kernelSize = ref(9);
+const kernelSize = ref(15);
 const kernelSigma = ref(3);
 const gaussianKernel = computed(() =>
   generateGaussianKernel(kernelSize.value, kernelSigma.value)
 );
+const lambda1 = ref("0");
+const lambda2 = ref("0");
 let image: HTMLImageElement;
 let gradients: { Ix: number[]; Iy: number[] };
 
@@ -196,8 +205,15 @@ function drawOverlay(x: number, y: number) {
 
   const eigenvectors = computeEigenvectors(x, y);
 
+  //const eigen1 = eigenvectors[0].value as number;
+  //const eigen2 = eigenvectors[1].value as number;
+  //lambda1.value = eigen1 > eigen2 ? eigen1.toFixed() : eigen2.toFixed();
+  //lambda2.value = eigen1 > eigen2 ? eigen2.toFixed() : eigen1.toFixed();
+
   // Normalize eigenvalues
   const eigenvalues = eigenvectors.map((vec) => (vec.value as number) / 1000);
+  lambda1.value = eigenvalues.sort()[1].toFixed();
+  lambda2.value = eigenvalues.sort()[0].toFixed();
 
   // Draw gaussian kernel at cursor position
   const halfKernel = Math.floor(kernelSize.value / 2);
