@@ -244,7 +244,7 @@ function drawOverlay(x: number, y: number) {
 
 // Main function to set up canvas and interactivity
 async function init() {
-  image = await loadImage("img.png");
+  image = await loadImage("/house_drawing.png");
   ctx.value.drawImage(image, 0, 0, canvas.value.width, canvas.value.height);
   computeGradients();
 
